@@ -1,0 +1,53 @@
+<script src="../../media/sorttable.js"></script>
+
+<LINK href="../../media/site.css" rel="stylesheet" type="text/css">
+
+<title> Rank: {{ user.psn_id }} </title>
+
+<center><h2><img src="{{ user.pic_url}}" /> {{ user.psn_id }} </h2></center>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<table class="sortable" align="center">
+	<tr height="30" > 
+		<th align="center" > # </th>
+		<th align="left"   style="border-left: 0px; border-right: 0px"> Jogo </th>
+		<th align="center" > % </th>
+		<th align="center" > <img src="../../media/gold.png">     </th>
+		<th align="center" > <img src="../../media/silver.png">   </th>
+		<th align="center" > <img src="../../media/bronze.png">   </th>
+		<th align="center" width=42 > <img src="../../media/total.png" height=20>   </th>
+	</tr>
+{% for game, perc, total, type in user_game_info %}
+	<tr> 
+		
+		{% if game.platinum  %} 
+			<td align="center"   width=25 sorttable_customkey=2>
+			<img src="../../media/platinum.png"> 
+		{% else  %}
+			{% if type %} 
+				<td align="center"   width=25 sorttable_customkey=1>
+				<img src="../../media/100.jpg"> 
+			{% else %}
+				<td align="center"   width=25 sorttable_customkey=0>
+		   {% endif %}
+		{% endif %}
+		</td>
+		<td align="left" >
+			<img src="{{ game.game.pic_url}}" height=44 width=80 />
+			<a href="game/{{ game.game.psn_id}}" > {{ game.game.name}} </a>
+		</td>
+		<td align="left"   width=202> 
+			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{perc}}px">
+				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ game.perc_done}}% </div>
+			</div>
+		</td>
+	 
+		<td align="center" width=30>{{ game.gold}}</td>
+		<td align="center" width=30>{{ game.silver}}</td>
+		<td align="center" width=30>{{ game.bronze}}</td>
+		<td align="center" width=30>{{ total }}</td>
+		</div>
+	</tr>
+{% endfor %}
+</table>
